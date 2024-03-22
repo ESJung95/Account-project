@@ -30,8 +30,10 @@ public class AccountService {
      */
     @Transactional
     public AccountDto createAccount(Long userId, Long initialBalance) {
-        AccountUser accoutUser = accountUserRepository.findById(userId)
+        AccountUser accountUser = accountUserRepository.findById(userId)
                 .orElseThrow(() -> new AccountException(ErrorCode.USER_NOT_FOUND));
+
+        validateCreateAccount(accountUser);
 
         String newAccountNumber = accountRepository.findFirstByOrderByIdDesc()
                 .map(account -> (Integer.parseInt(account.getAccountNumber())) + 1 + "")
@@ -39,13 +41,19 @@ public class AccountService {
 
         return AccountDto.fromEntity(accountRepository.save(
                 Account.builder()
-                        .accountUser(accoutUser)
+                        .accountUser(accountUser)
                         .accountStatus(IN_USE)
                         .accountNumber(newAccountNumber)
                         .balance(initialBalance)
                         .registeredAt(LocalDateTime.now())
                         .build())
         );
+    }
+
+    private void validateCreateAccount(AccountUser accountUser) {
+        if(accountRepository.countByAccountUser(accountUser) >= 10) {
+            throw new AccountException(ErrorCode.MAX_ACCOUNT_PER_USER_10);
+        }
     }
 
     @Transactional

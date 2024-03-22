@@ -10,6 +10,7 @@ public class CreateAccount {
 
     @Getter
     @Setter
+    @AllArgsConstructor
     public static class Request {
         // 이너클래스 - 이름을 지어주면 명시적으로 알아보기 좋음
         @NotNull
