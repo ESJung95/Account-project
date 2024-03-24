@@ -270,7 +270,7 @@ class AccountServiceTest {
     }
 
     @Test
-    @DisplayName("계좌가 이미 해지된 경우")
+    @DisplayName("계좌가 이미 해지된 경우 -  해지 계좌는 해지할 수 없다")
     void deleteAccountFailed_alreadyUnregistered() {
         // given
         AccountUser pobi = AccountUser.builder()
