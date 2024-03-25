@@ -1,17 +1,16 @@
 package com.example.account.dto;
 
 import com.example.account.type.TransactionResultType;
-import io.lettuce.core.TransactionResult;
 import jakarta.validation.constraints.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
 
+public class CancelBalance {
 
-public class UseBalance {
     /**
      * {
-     * "userId":1,
+     * "transactionId":"c2033bb6d82a4250aecf8e27c49b63f6",
      * "accountNumber":"1000000000",
      * "amount":1000
      * }
@@ -20,9 +19,8 @@ public class UseBalance {
     @Setter
     @AllArgsConstructor
     public static class Request {
-        @NotNull
-        @Min(1)
-        private Long userId;
+        @NotBlank
+        private String transactionId;
 
         @NotBlank
         @Size(min = 10, max = 10)
@@ -34,6 +32,16 @@ public class UseBalance {
         private Long amount;
     }
 
+
+    /**
+     * {
+     * "accountNumber":"1000000000",
+     * "transactionResult":"S",
+     * "transactionId":"5d011bb6d82cc50aecf8e27cdabb6772",
+     * "amount":1000,
+     * "transactedAt":"2022-06-01T23:26:14.671859"
+     * }
+     */
     @Getter
     @Setter
     @NoArgsConstructor
